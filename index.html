@@ -1,0 +1,1036 @@
+<!doctype html>
+<html lang="zh-Hant-TW">
+  <head>
+    <meta charset="utf-8">
+    <title>SITCON Camp 2026 帳號綁定</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
+
+    <style>
+      :root {
+        color-scheme: light;
+        --text: #24292f;
+        --muted: #57606a;
+        --border: #d0d7de;
+        --surface: #ffffff;
+        --subtle: #f6f8fa;
+        --success: #1a7f37;
+        --danger: #cf222e;
+        --warning: #9a6700;
+        --github: #24292f;
+        --github-hover: #32383f;
+        --telegram: #229ed9;
+        --telegram-hover: #168ac0;
+        --telegram-secondary: #1479aa;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        min-height: 100vh;
+        font-family:
+          system-ui,
+          -apple-system,
+          BlinkMacSystemFont,
+          "Segoe UI",
+          "Noto Sans TC",
+          sans-serif;
+        line-height: 1.6;
+        color: var(--text);
+        background: var(--subtle);
+      }
+
+      .page {
+        width: 100%;
+        max-width: 720px;
+        margin: 0 auto;
+        padding: 32px 20px;
+      }
+
+      .card,
+      .complete-card {
+        width: 100%;
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: 18px;
+        padding: 28px;
+        box-shadow: 0 8px 24px rgba(140, 149, 159, 0.16);
+      }
+
+      h1 {
+        margin: 0 0 12px;
+        font-size: clamp(1.6rem, 6vw, 2rem);
+        line-height: 1.25;
+      }
+
+      h2 {
+        margin: 0 0 8px;
+        font-size: 1.15rem;
+        line-height: 1.35;
+      }
+
+      p {
+        margin: 8px 0;
+      }
+
+      a {
+        overflow-wrap: anywhere;
+      }
+
+      label {
+        display: block;
+        margin-top: 18px;
+        font-weight: 800;
+      }
+
+      input {
+        width: 100%;
+        min-height: 48px;
+        margin-top: 8px;
+        padding: 10px 12px;
+        border: 1px solid var(--border);
+        border-radius: 10px;
+        font-size: 16px;
+        font: inherit;
+      }
+
+      input:focus {
+        outline: 2px solid rgba(34, 158, 217, 0.28);
+        border-color: var(--telegram);
+      }
+
+      .muted {
+        color: var(--muted);
+      }
+
+      .notice {
+        background: var(--subtle);
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        padding: 14px 16px;
+        margin: 20px 0;
+      }
+
+      .participant {
+        display: grid;
+        grid-template-columns: 96px 1fr;
+        gap: 8px 12px;
+        background: #ffffff;
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        padding: 16px;
+        margin: 16px 0;
+      }
+
+      .participant .label {
+        color: var(--muted);
+      }
+
+      .participant .value {
+        font-weight: 800;
+        overflow-wrap: anywhere;
+      }
+
+      .step {
+        border-top: 1px solid var(--border);
+        padding-top: 20px;
+        margin-top: 24px;
+      }
+
+      .status {
+        margin-top: 10px;
+        font-size: 0.95rem;
+      }
+
+      .error {
+        color: var(--danger);
+        font-weight: 700;
+      }
+
+      .success {
+        color: var(--success);
+        font-weight: 700;
+      }
+
+      .hidden {
+        display: none !important;
+      }
+
+      .button,
+      .github-button,
+      .telegram-button {
+        width: 100%;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        border-radius: 10px;
+        font-weight: 800;
+        font-size: 16px;
+        line-height: 20px;
+        min-height: 48px;
+        padding: 12px 16px;
+        margin-top: 12px;
+        cursor: pointer;
+        text-decoration: none;
+        text-align: center;
+        transition: background 0.15s ease, opacity 0.15s ease;
+      }
+
+      .button {
+        border: 1px solid var(--border);
+        background: #ffffff;
+        color: var(--text);
+      }
+
+      .button:hover:not(:disabled) {
+        background: var(--subtle);
+      }
+
+      .primary-button {
+        border: 1px solid rgba(31, 35, 40, 0.15);
+        background: var(--telegram);
+        color: #ffffff;
+      }
+
+      .primary-button:hover:not(:disabled) {
+        background: var(--telegram-hover);
+      }
+
+      .github-button {
+        border: 1px solid rgba(31, 35, 40, 0.15);
+        background: var(--github);
+        color: #ffffff;
+      }
+
+      .github-button:hover:not(:disabled) {
+        background: var(--github-hover);
+      }
+
+      .button:disabled,
+      .github-button:disabled,
+      .telegram-button:disabled {
+        cursor: not-allowed;
+        opacity: 0.55;
+      }
+
+      .github-mark {
+        width: 20px;
+        height: 20px;
+        fill: currentColor;
+        flex: none;
+      }
+
+      .footer {
+        margin-top: 20px;
+        font-size: 0.9rem;
+        color: var(--muted);
+      }
+
+      .complete-page {
+        min-height: 100vh;
+        width: 100%;
+        padding: 32px 20px;
+        display: flex;
+        justify-content: center;
+        align-items: flex-start;
+        background: var(--subtle);
+      }
+
+      .complete-card {
+        max-width: 720px;
+      }
+
+      .success-badge {
+        display: inline-flex;
+        padding: 4px 10px;
+        border-radius: 999px;
+        background: #dafbe1;
+        color: var(--success);
+        font-weight: 800;
+        font-size: 0.9rem;
+        margin-bottom: 12px;
+      }
+
+      .complete-lead {
+        color: var(--muted);
+      }
+
+      .summary {
+        display: grid;
+        gap: 10px;
+        margin: 20px 0;
+      }
+
+      .summary div {
+        display: grid;
+        grid-template-columns: 160px 1fr;
+        gap: 10px;
+        padding: 12px;
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        background: #fff;
+      }
+
+      .summary dt {
+        color: var(--muted);
+        font-weight: 600;
+      }
+
+      .summary dd {
+        margin: 0;
+        min-width: 0;
+        overflow-wrap: anywhere;
+        font-weight: 800;
+      }
+
+      .next-step {
+        margin-top: 22px;
+        padding: 18px;
+        border-radius: 14px;
+        background: var(--subtle);
+        border: 1px solid var(--border);
+      }
+
+      .button-stack {
+        display: grid;
+        gap: 10px;
+        margin-top: 14px;
+      }
+
+      .telegram-button {
+        color: #ffffff;
+        background: var(--telegram);
+      }
+
+      .telegram-button:hover {
+        background: var(--telegram-hover);
+      }
+
+      .telegram-button.secondary {
+        background: var(--telegram-secondary);
+      }
+
+      .telegram-button.secondary:hover {
+        background: #10698f;
+      }
+
+      .warning {
+        color: var(--warning);
+        font-weight: 700;
+      }
+
+      .hint {
+        margin-top: 18px;
+        color: var(--muted);
+        font-size: 0.95rem;
+      }
+
+      .code-box {
+        margin-top: 12px;
+        padding: 12px;
+        border: 1px solid var(--border);
+        border-radius: 10px;
+        background: #ffffff;
+        font-family:
+          ui-monospace,
+          SFMono-Regular,
+          Menlo,
+          Consolas,
+          monospace;
+        font-weight: 800;
+        overflow-wrap: anywhere;
+      }
+
+      @media (max-width: 520px) {
+        .page,
+        .complete-page {
+          padding: 16px 12px;
+        }
+
+        .card,
+        .complete-card {
+          padding: 20px;
+          border-radius: 14px;
+        }
+
+        .participant {
+          grid-template-columns: 1fr;
+          gap: 2px;
+        }
+
+        .summary div {
+          grid-template-columns: 1fr;
+          gap: 2px;
+        }
+
+        .button,
+        .github-button,
+        .telegram-button {
+          font-size: 1rem;
+        }
+      }
+    </style>
+  </head>
+
+  <body>
+    <main class="page">
+      <section id="tokenEntryPanel" class="card hidden">
+        <h1>SITCON Camp 2026 帳號綁定</h1>
+
+        <p class="muted">
+          請輸入行前信中的綁定碼，接著使用 Safari / Chrome 完成 Google 與 GitHub 帳號綁定。
+        </p>
+
+        <div class="notice">
+          若你是從 Gmail、LINE、Instagram、Facebook 等 App 內建瀏覽器開啟，
+          請改用 Safari / Chrome 開啟本頁。
+        </div>
+
+        <label for="tokenEntryInput">綁定碼</label>
+        <input
+          id="tokenEntryInput"
+          type="text"
+          autocomplete="one-time-code"
+          placeholder="例如：qweasd">
+
+        <button id="tokenEntryButton" class="button primary-button" type="button">
+          開始綁定
+        </button>
+
+        <p id="tokenEntryMessage" class="status muted"></p>
+
+        <p class="footer">
+          本頁面只用於 SITCON Camp 2026 行前帳號綁定。
+        </p>
+      </section>
+
+      <section id="normalPanel" class="card hidden">
+        <h1>SITCON Camp 2026 帳號綁定</h1>
+
+        <p class="muted">
+          這個頁面會協助你綁定 Google account mail 與 GitHub username，
+          用於活動中的 Google 文件與 GitHub repo 權限設定。
+        </p>
+
+        <div class="notice">
+          請先確認下方資料是你本人。若小隊或姓名不正確，請不要繼續操作，並聯絡工作人員。
+        </div>
+
+        <div id="participantLoading" class="muted">
+          正在讀取學員資料……
+        </div>
+
+        <div id="participantCard" class="participant hidden">
+          <div class="label">小隊</div>
+          <div id="participantTeam" class="value"></div>
+
+          <div class="label">姓名</div>
+          <div id="participantName" class="value"></div>
+        </div>
+
+        <section class="step">
+          <h2>1. Google account mail</h2>
+
+          <p class="muted">
+            請使用你希望活動期間接收 Google 文件權限的 Google 帳號登入。
+          </p>
+
+          <div
+            id="g_id_onload"
+            data-client_id="1041127504984-4plkm8r8olqgavpnmi7hnovfmmb7si35.apps.googleusercontent.com"
+            data-callback="handleGoogleCredential"
+            data-auto_prompt="false">
+          </div>
+
+          <div
+            class="g_id_signin"
+            data-type="standard"
+            data-size="large"
+            data-theme="outline"
+            data-text="signin_with"
+            data-shape="rectangular"
+            data-logo_alignment="left">
+          </div>
+
+          <p id="googleStatus" class="status muted">尚未完成 Google 登入。</p>
+        </section>
+
+        <section class="step">
+          <h2>2. GitHub username</h2>
+
+          <p class="muted">
+            這一步會跳轉到 GitHub，由 GitHub 回傳你的 username。
+            你不需要手動填寫 GitHub username。
+          </p>
+
+          <button id="githubButton" class="github-button" type="button" disabled>
+            <svg class="github-mark" viewBox="0 0 16 16" aria-hidden="true">
+              <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38
+              0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13
+              -.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87
+              2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95
+              0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21
+              2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27
+              1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12
+              .51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95
+              .29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2
+              0 .21.15.46.55.38A8.013 8.013 0 0 0 16 8c0-4.42-3.58-8-8-8Z"/>
+            </svg>
+            Continue with GitHub
+          </button>
+
+          <p id="message" class="status muted"></p>
+        </section>
+
+        <p class="footer">
+          本頁面只用於 SITCON Camp 2026 行前帳號綁定。Telegram 群組連結會在完成驗證後顯示。
+        </p>
+      </section>
+    </main>
+
+    <script>
+      const GITHUB_CLIENT_ID = 'Ov23limoWQw5HYoYfDcY';
+
+      const APPS_SCRIPT_WEB_APP_URL =
+        'https://script.google.com/macros/s/AKfycbzHzcwLoG4iZzxTAYSx5vJNKCfMw5kLRi-OcHdq8vKKanBPr29nkDohXAPZ9sP3Tm-t/exec';
+
+      const GITHUB_REDIRECT_URI = 'https://accounts.sitcon.party/';
+
+      const params = new URLSearchParams(window.location.search);
+
+      const code = params.get('code') || '';
+      const returnedState = params.get('state') || '';
+      const urlToken = params.get('t') || '';
+
+      let participantLoaded = false;
+      let googleCredential = sessionStorage.getItem('sitcon_bind_google_credential') || '';
+      let token = urlToken || sessionStorage.getItem('sitcon_bind_token') || '';
+      let githubListenerBound = false;
+
+      if (urlToken) {
+        sessionStorage.setItem('sitcon_bind_token', urlToken);
+      }
+
+      if (code && returnedState) {
+        handleGithubCallback();
+      } else if (isLikelyInAppBrowser()) {
+        renderOpenInBrowserGate();
+      } else if (token) {
+        initializeNormalPage();
+      } else {
+        renderTokenEntry();
+      }
+
+      function renderTokenEntry() {
+        document.getElementById('tokenEntryPanel').classList.remove('hidden');
+        document.getElementById('normalPanel').classList.add('hidden');
+
+        const input = document.getElementById('tokenEntryInput');
+        const button = document.getElementById('tokenEntryButton');
+        const message = document.getElementById('tokenEntryMessage');
+
+        button.addEventListener('click', function() {
+          const enteredToken = normalizeTokenInput(input.value);
+
+          if (!enteredToken) {
+            message.textContent = '請輸入行前信中的綁定碼。';
+            message.className = 'status error';
+            return;
+          }
+
+          window.location.assign(
+            window.location.origin +
+            window.location.pathname +
+            '?t=' +
+            encodeURIComponent(enteredToken)
+          );
+        });
+
+        input.addEventListener('keydown', function(event) {
+          if (event.key === 'Enter') {
+            button.click();
+          }
+        });
+      }
+
+      function initializeNormalPage() {
+        document.getElementById('tokenEntryPanel').classList.add('hidden');
+        document.getElementById('normalPanel').classList.remove('hidden');
+
+        if (!token) {
+          showFatal('缺少 token，請使用行前信中的專屬連結進入。');
+          return;
+        }
+
+        loadParticipantProfile(token);
+        updateGithubButtonState();
+
+        if (!githubListenerBound) {
+          document
+            .getElementById('githubButton')
+            .addEventListener('click', startGithubOAuth);
+
+          githubListenerBound = true;
+        }
+      }
+
+      function handleGoogleCredential(response) {
+        googleCredential = response.credential;
+        sessionStorage.setItem('sitcon_bind_google_credential', googleCredential);
+
+        const googleStatus = document.getElementById('googleStatus');
+        googleStatus.textContent = '已完成 Google 登入。';
+        googleStatus.className = 'status success';
+
+        updateGithubButtonState();
+      }
+
+      function loadParticipantProfile(token) {
+        jsonp(
+          APPS_SCRIPT_WEB_APP_URL,
+          {
+            action: 'profile',
+            t: token,
+          },
+          function(result) {
+            if (!result || !result.ok) {
+              showFatal((result && result.message) || '讀取學員資料失敗，請稍後再試。');
+              return;
+            }
+
+            participantLoaded = true;
+
+            document.getElementById('participantTeam').textContent = result.team || '未填寫';
+            document.getElementById('participantName').textContent = result.name || '未填寫';
+
+            document.getElementById('participantLoading').classList.add('hidden');
+            document.getElementById('participantCard').classList.remove('hidden');
+
+            if (result.hasGoogleAccountMail || result.hasGithubUsername) {
+              setMessage('這筆資料先前已綁定過；重新操作會覆蓋原本的綁定結果。', 'muted');
+            } else {
+              setMessage('', 'muted');
+            }
+
+            updateGithubButtonState();
+          }
+        );
+      }
+
+      function updateGithubButtonState() {
+        const githubButton = document.getElementById('githubButton');
+
+        if (!githubButton) {
+          return;
+        }
+
+        githubButton.disabled = !(token && participantLoaded && googleCredential);
+      }
+
+      function startGithubOAuth() {
+        if (isLikelyInAppBrowser()) {
+          renderOpenInBrowserGate();
+          return;
+        }
+
+        if (!token) {
+          setMessage('缺少 token，請重新打開行前信連結。', 'error');
+          return;
+        }
+
+        if (!participantLoaded) {
+          setMessage('尚未完成學員資料讀取，請稍候。', 'error');
+          return;
+        }
+
+        if (!googleCredential) {
+          setMessage('請先完成 Google 登入。', 'error');
+          return;
+        }
+
+        const state = createRandomState();
+
+        sessionStorage.setItem('sitcon_bind_state', state);
+        sessionStorage.setItem('sitcon_bind_token', token);
+        sessionStorage.setItem('sitcon_bind_google_credential', googleCredential);
+
+        const githubUrl =
+          'https://github.com/login/oauth/authorize' +
+          '?client_id=' + encodeURIComponent(GITHUB_CLIENT_ID) +
+          '&redirect_uri=' + encodeURIComponent(GITHUB_REDIRECT_URI) +
+          '&state=' + encodeURIComponent(state) +
+          '&allow_signup=true';
+
+        const githubButton = document.getElementById('githubButton');
+        githubButton.disabled = true;
+        githubButton.innerHTML = 'Redirecting to GitHub…';
+
+        window.location.assign(githubUrl);
+      }
+
+      function handleGithubCallback() {
+        const expectedState = sessionStorage.getItem('sitcon_bind_state') || '';
+        const storedToken = sessionStorage.getItem('sitcon_bind_token') || '';
+        const storedCredential =
+          sessionStorage.getItem('sitcon_bind_google_credential') || '';
+
+        if (!expectedState || returnedState !== expectedState) {
+          renderError('GitHub 授權狀態不一致，請回到行前信連結重新操作。');
+          return;
+        }
+
+        if (!storedToken) {
+          renderError('找不到 token，請回到行前信連結重新操作。');
+          return;
+        }
+
+        if (!storedCredential) {
+          renderError('找不到 Google 登入狀態，請回到行前信連結重新操作。');
+          return;
+        }
+
+        renderLoading('正在完成帳號綁定，請不要關閉頁面……');
+
+        jsonp(
+          APPS_SCRIPT_WEB_APP_URL,
+          {
+            action: 'complete',
+            t: storedToken,
+            credential: storedCredential,
+            githubCode: code,
+            githubState: returnedState,
+          },
+          function(result) {
+            sessionStorage.removeItem('sitcon_bind_state');
+
+            if (!result || !result.ok) {
+              renderError((result && result.message) || '帳號綁定失敗，請重新操作。');
+              return;
+            }
+
+            sessionStorage.removeItem('sitcon_bind_google_credential');
+
+            const cleanUrl = window.location.origin + window.location.pathname;
+            window.history.replaceState({}, document.title, cleanUrl);
+
+            renderCompletion(result);
+          }
+        );
+      }
+
+      function renderCompletion(result) {
+        const campTelegramUrl = safeUrl(result.campTelegramUrl || '');
+        const teamTelegramUrl = safeUrl(result.teamTelegramUrl || '');
+
+        document.body.innerHTML = `
+          <main class="complete-page">
+            <section class="complete-card">
+              <div class="success-badge">綁定完成</div>
+
+              <h1>帳號綁定完成！</h1>
+
+              <p class="complete-lead">
+                請確認以下資訊，並完成 Telegram 群組加入。
+              </p>
+
+              <dl class="summary">
+                <div>
+                  <dt>小隊</dt>
+                  <dd>${escapeHtml(result.team || '')}</dd>
+                </div>
+                <div>
+                  <dt>學員姓名</dt>
+                  <dd>${escapeHtml(result.name || '')}</dd>
+                </div>
+                <div>
+                  <dt>Google 帳號信箱</dt>
+                  <dd>${escapeHtml(result.googleEmail || '')}</dd>
+                </div>
+                <div>
+                  <dt>GitHub 使用者名稱</dt>
+                  <dd>${escapeHtml(result.githubUsername || '')}</dd>
+                </div>
+              </dl>
+
+              <section class="next-step">
+                <h2>下一步：加入 Telegram 群組</h2>
+                <p>
+                  活動期間會使用 Telegram 進行重要通知與小隊聯絡。
+                  請先註冊或登入 Telegram，並加入以下群組。
+                </p>
+
+                <div class="button-stack">
+                  ${
+                    campTelegramUrl
+                      ? `<a class="telegram-button" href="${escapeAttr(campTelegramUrl)}" target="_blank" rel="noopener noreferrer">加入營隊大群組</a>`
+                      : `<p class="warning">營隊大群組連結尚未填入，請等待工作人員通知。</p>`
+                  }
+
+                  ${
+                    teamTelegramUrl
+                      ? `<a class="telegram-button secondary" href="${escapeAttr(teamTelegramUrl)}" target="_blank" rel="noopener noreferrer">加入小隊 Telegram 群組</a>`
+                      : `<p class="warning">小隊群組連結尚未填入，請等待工作人員通知。</p>`
+                  }
+                </div>
+              </section>
+
+              <p class="hint">
+                如果這不是你要使用的 GitHub 帳號，請先登出 GitHub 或切換帳號後，
+                再重新打開行前信連結操作一次。
+              </p>
+
+              <p class="hint">
+                你可以關閉這個頁面。
+              </p>
+            </section>
+          </main>
+        `;
+      }
+
+      function renderOpenInBrowserGate() {
+        const currentUrl = token
+          ? window.location.origin + window.location.pathname + '?t=' + encodeURIComponent(token)
+          : window.location.href;
+
+        const androidIntentUrl = makeAndroidChromeIntentUrl(currentUrl);
+
+        document.body.innerHTML = `
+          <main class="complete-page">
+            <section class="complete-card">
+              <h1>請改用 Safari / Chrome 開啟</h1>
+
+              <p class="complete-lead">
+                你目前可能是在 App 內建瀏覽器中開啟本頁。
+                Google / GitHub 登入在這種瀏覽器中容易失敗。
+              </p>
+
+              <section class="next-step">
+                <h2>請照以下方式操作</h2>
+                <p>
+                  請複製下方綁定連結，貼到 Safari 或 Chrome 開啟後再繼續。
+                </p>
+
+                <button id="copyBindingUrlButton" class="telegram-button" type="button">
+                  複製綁定連結
+                </button>
+
+                ${
+                  token
+                    ? `
+                      <p class="hint">你的綁定碼：</p>
+                      <div class="code-box">${escapeHtml(token)}</div>
+                    `
+                    : ''
+                }
+
+                <p class="hint">
+                  Android 使用者也可以嘗試直接用 Chrome 開啟。
+                </p>
+
+                <a class="telegram-button secondary" href="${escapeAttr(androidIntentUrl)}">
+                  嘗試用 Chrome 開啟
+                </a>
+              </section>
+
+              <p class="hint">
+                iPhone / iPad 使用者請使用右上角選單，選擇「在瀏覽器開啟」或「在 Safari 開啟」。
+                如果找不到這個選項，請先複製綁定連結，再手動打開 Safari 貼上。
+              </p>
+            </section>
+          </main>
+        `;
+
+        const copyButton = document.getElementById('copyBindingUrlButton');
+
+        copyButton.addEventListener('click', function() {
+          copyText(currentUrl, '已複製綁定連結，請貼到 Safari 或 Chrome 開啟。');
+        });
+      }
+
+      function jsonp(baseUrl, params, callback) {
+        const callbackName =
+          'jsonpCallback_' +
+          Date.now().toString(36) +
+          '_' +
+          Math.random().toString(36).slice(2);
+
+        const script = document.createElement('script');
+
+        params.callback = callbackName;
+
+        const url =
+          baseUrl +
+          '?' +
+          Object.keys(params)
+            .map(function(key) {
+              return encodeURIComponent(key) + '=' + encodeURIComponent(params[key]);
+            })
+            .join('&');
+
+        window[callbackName] = function(result) {
+          try {
+            callback(result);
+          } finally {
+            delete window[callbackName];
+            script.remove();
+          }
+        };
+
+        script.onerror = function() {
+          delete window[callbackName];
+          script.remove();
+          callback({
+            ok: false,
+            message: '連線到帳號綁定後端失敗，請稍後再試。',
+          });
+        };
+
+        script.src = url;
+        document.head.appendChild(script);
+      }
+
+      function renderLoading(text) {
+        document.body.innerHTML = `
+          <main class="complete-page">
+            <section class="complete-card">
+              <h1>處理中</h1>
+              <p>${escapeHtml(text)}</p>
+            </section>
+          </main>
+        `;
+      }
+
+      function renderError(message) {
+        document.body.innerHTML = `
+          <main class="complete-page">
+            <section class="complete-card">
+              <h1>綁定失敗</h1>
+              <p class="error">${escapeHtml(message)}</p>
+              <p class="hint">請回到行前信連結重新操作；如果仍然失敗，請聯絡工作人員。</p>
+            </section>
+          </main>
+        `;
+      }
+
+      function showFatal(message) {
+        const loading = document.getElementById('participantLoading');
+
+        if (loading) {
+          loading.textContent = message;
+          loading.className = 'error';
+        }
+
+        setMessage(message, 'error');
+      }
+
+      function createRandomState() {
+        const bytes = new Uint8Array(16);
+        crypto.getRandomValues(bytes);
+
+        return Array.from(bytes)
+          .map(function(byte) {
+            return byte.toString(16).padStart(2, '0');
+          })
+          .join('');
+      }
+
+      function setMessage(text, type) {
+        const message = document.getElementById('message');
+
+        if (!message) {
+          return;
+        }
+
+        message.textContent = text || '';
+        message.className = 'status ' + (type || 'muted');
+      }
+
+      function safeUrl(value) {
+        const url = String(value || '').trim();
+
+        if (!url) {
+          return '';
+        }
+
+        if (
+          url.startsWith('https://') ||
+          url.startsWith('http://') ||
+          url.startsWith('tg://')
+        ) {
+          return url;
+        }
+
+        return '';
+      }
+
+      function isLikelyInAppBrowser() {
+        const ua = navigator.userAgent || '';
+
+        return /FBAN|FBAV|Instagram|Line|MicroMessenger|Twitter|LinkedInApp|TikTok|GSA|wv|WebView/i.test(ua);
+      }
+
+      function makeAndroidChromeIntentUrl(url) {
+        let parsed;
+
+        try {
+          parsed = new URL(url);
+        } catch (error) {
+          return url;
+        }
+
+        return (
+          'intent://' +
+          parsed.host +
+          parsed.pathname +
+          parsed.search +
+          '#Intent;scheme=https;package=com.android.chrome;S.browser_fallback_url=' +
+          encodeURIComponent(url) +
+          ';end'
+        );
+      }
+
+      function copyText(text, successMessage) {
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          navigator.clipboard.writeText(text).then(
+            function() {
+              alert(successMessage);
+            },
+            function() {
+              prompt('請複製這個連結，貼到 Safari 或 Chrome 開啟：', text);
+            }
+          );
+
+          return;
+        }
+
+        prompt('請複製這個連結，貼到 Safari 或 Chrome 開啟：', text);
+      }
+
+      function normalizeTokenInput(value) {
+        return String(value || '')
+          .trim()
+          .replace(/^https:\/\/accounts\.sitcon\.party\/?\?t=/i, '')
+          .replace(/^http:\/\/accounts\.sitcon\.party\/?\?t=/i, '')
+          .trim();
+      }
+
+      function escapeHtml(value) {
+        return String(value || '')
+          .replace(/&/g, '&amp;')
+          .replace(/</g, '&lt;')
+          .replace(/>/g, '&gt;')
+          .replace(/"/g, '&quot;')
+          .replace(/'/g, '&#039;');
+      }
+
+      function escapeAttr(value) {
+        return escapeHtml(value);
+      }
+    </script>
+  </body>
+</html>
