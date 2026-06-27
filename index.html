@@ -2,7 +2,7 @@
 <html lang="zh-Hant-TW">
   <head>
     <meta charset="utf-8">
-    <title>SITCON Camp 2026 帳號綁定</title>
+    <title>SITCON Camp 2026 行前帳號設定</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <script src="https://accounts.google.com/gsi/client" async defer></script>
@@ -380,15 +380,16 @@
   <body>
     <main class="page">
       <section id="tokenEntryPanel" class="card hidden">
-        <h1>SITCON Camp 2026 帳號綁定</h1>
+        <h1>SITCON Camp 2026 行前帳號設定</h1>
 
         <p class="muted">
-          請輸入行前信中的綁定碼，接著使用 Safari / Chrome 完成 Google 與 GitHub 帳號綁定。
+          這裡會協助你把營隊期間會用到的 Google、GitHub 與 Telegram 資訊準備好。
+          請先輸入行前信中的綁定碼，我們會帶你一步一步完成。
         </p>
 
         <div class="notice">
-          若你是從 Gmail、LINE、Instagram、Facebook 等 App 內建瀏覽器開啟，
-          請改用 Safari / Chrome 開啟本頁。
+          如果你是從 Gmail、LINE、Instagram、Facebook 等 App 裡打開這個頁面，
+          請改用 Safari 或 Chrome 開啟，登入流程會比較順利。
         </div>
 
         <label for="tokenEntryInput">綁定碼</label>
@@ -399,26 +400,27 @@
           placeholder="例如：qweasd">
 
         <button id="tokenEntryButton" class="button primary-button" type="button">
-          開始綁定
+          開始設定
         </button>
 
         <p id="tokenEntryMessage" class="status muted"></p>
 
         <p class="footer">
-          本頁面只用於 SITCON Camp 2026 行前帳號綁定。
+          這個頁面只用於 SITCON Camp 2026 行前帳號設定。
         </p>
       </section>
 
       <section id="normalPanel" class="card hidden">
-        <h1>SITCON Camp 2026 帳號綁定</h1>
+        <h1>SITCON Camp 2026 行前帳號設定</h1>
 
         <p class="muted">
-          這個頁面會協助你綁定 Google account mail 與 GitHub username，
-          用於活動中的 Google 文件與 GitHub repo 權限設定。
+          營隊期間會用到 Google 文件、GitHub 練習環境與 Telegram 通知。
+          請依序完成下面兩個登入步驟，工作人員就能替你開好需要的權限。
         </p>
 
         <div class="notice">
-          請先確認下方資料是你本人。若小隊或姓名不正確，請不要繼續操作，並聯絡工作人員。
+          請先確認下方資料是不是你本人。若姓名或小隊不正確，請先停在這裡，
+          聯絡工作人員協助處理。
         </div>
 
         <div id="participantLoading" class="muted">
@@ -434,10 +436,11 @@
         </div>
 
         <section class="step">
-          <h2>1. Google account mail</h2>
+          <h2>1. 選擇營隊要使用的 Google 帳號</h2>
 
           <p class="muted">
-            請使用你希望活動期間接收 Google 文件權限的 Google 帳號登入。
+            請登入你在營隊期間要用來開啟講義、共筆與表單的 Google 帳號。
+            我們只會記錄這個帳號的信箱，用來設定文件權限。
           </p>
 
           <div
@@ -457,16 +460,20 @@
             data-logo_alignment="left">
           </div>
 
-          <p id="googleStatus" class="status muted">尚未完成 Google 登入。</p>
+          <p id="googleStatus" class="status muted">尚未選擇 Google 帳號。</p>
         </section>
 
         <section class="step">
-          <h2>2. GitHub username</h2>
+          <h2>2. 登入或建立 GitHub 帳號</h2>
 
           <p class="muted">
-            這一步會跳轉到 GitHub，由 GitHub 回傳你的 username。
-            你不需要手動填寫 GitHub username。
+            GitHub 會用在課程練習、程式碼範例與協作。如果你還沒有帳號，
+            請先到 GitHub 建立帳號，再回到本頁繼續。
           </p>
+
+          <a class="button" href="https://github.com/signup" target="_blank" rel="noopener noreferrer">
+            建立 GitHub 帳號
+          </a>
 
           <button id="githubButton" class="github-button" type="button" disabled>
             <svg class="github-mark" viewBox="0 0 16 16" aria-hidden="true">
@@ -488,7 +495,7 @@
         </section>
 
         <p class="footer">
-          本頁面只用於 SITCON Camp 2026 行前帳號綁定。Telegram 群組連結會在完成驗證後顯示。
+          完成 Google 與 GitHub 後，這裡會顯示 Telegram 群組連結，請接著加入營隊群組。
         </p>
       </section>
     </main>
@@ -538,7 +545,7 @@
           const enteredToken = normalizeTokenInput(input.value);
 
           if (!enteredToken) {
-            message.textContent = '請輸入行前信中的綁定碼。';
+            message.textContent = '請輸入行前信中的綁定碼；也可以直接貼上整段綁定連結。';
             message.className = 'status error';
             return;
           }
@@ -563,7 +570,7 @@
         document.getElementById('normalPanel').classList.remove('hidden');
 
         if (!token) {
-          showFatal('缺少 token，請使用行前信中的專屬連結進入。');
+          showFatal('找不到你的綁定碼，請從行前信中的專屬連結重新進入。');
           return;
         }
 
@@ -584,7 +591,7 @@
         sessionStorage.setItem('sitcon_bind_google_credential', googleCredential);
 
         const googleStatus = document.getElementById('googleStatus');
-        googleStatus.textContent = '已完成 Google 登入。';
+        googleStatus.textContent = '已選擇 Google 帳號。請繼續完成 GitHub 步驟。';
         googleStatus.className = 'status success';
 
         updateGithubButtonState();
@@ -599,7 +606,12 @@
           },
           function(result) {
             if (!result || !result.ok) {
-              showFatal((result && result.message) || '讀取學員資料失敗，請稍後再試。');
+              showFatal(
+                getFriendlyErrorMessage(
+                  result && result.message,
+                  '暫時讀不到你的學員資料，請稍後再試一次。'
+                )
+              );
               return;
             }
 
@@ -612,7 +624,7 @@
             document.getElementById('participantCard').classList.remove('hidden');
 
             if (result.hasGoogleAccountMail || result.hasGithubUsername) {
-              setMessage('這筆資料先前已綁定過；重新操作會覆蓋原本的綁定結果。', 'muted');
+              setMessage('你先前已經設定過帳號；如果這次重新操作，會以本次選擇的帳號為準。', 'muted');
             } else {
               setMessage('', 'muted');
             }
@@ -639,17 +651,17 @@
         }
 
         if (!token) {
-          setMessage('缺少 token，請重新打開行前信連結。', 'error');
+          setMessage('找不到你的綁定碼，請重新打開行前信中的專屬連結。', 'error');
           return;
         }
 
         if (!participantLoaded) {
-          setMessage('尚未完成學員資料讀取，請稍候。', 'error');
+          setMessage('正在讀取你的學員資料，請稍候再按一次。', 'error');
           return;
         }
 
         if (!googleCredential) {
-          setMessage('請先完成 Google 登入。', 'error');
+          setMessage('請先完成第一步，選擇營隊要使用的 Google 帳號。', 'error');
           return;
         }
 
@@ -668,7 +680,7 @@
 
         const githubButton = document.getElementById('githubButton');
         githubButton.disabled = true;
-        githubButton.innerHTML = 'Redirecting to GitHub…';
+        githubButton.innerHTML = '正在前往 GitHub…';
 
         window.location.assign(githubUrl);
       }
@@ -680,21 +692,21 @@
           sessionStorage.getItem('sitcon_bind_google_credential') || '';
 
         if (!expectedState || returnedState !== expectedState) {
-          renderError('GitHub 授權狀態不一致，請回到行前信連結重新操作。');
+          renderError('GitHub 登入狀態已失效，請回到行前信連結重新操作一次。');
           return;
         }
 
         if (!storedToken) {
-          renderError('找不到 token，請回到行前信連結重新操作。');
+          renderError('找不到你的綁定碼，請回到行前信連結重新操作一次。');
           return;
         }
 
         if (!storedCredential) {
-          renderError('找不到 Google 登入狀態，請回到行前信連結重新操作。');
+          renderError('找不到剛剛選擇的 Google 帳號，請回到行前信連結重新操作一次。');
           return;
         }
 
-        renderLoading('正在完成帳號綁定，請不要關閉頁面……');
+        renderLoading('正在替你完成行前帳號設定，請不要關閉頁面……');
 
         jsonp(
           APPS_SCRIPT_WEB_APP_URL,
@@ -709,7 +721,12 @@
             sessionStorage.removeItem('sitcon_bind_state');
 
             if (!result || !result.ok) {
-              renderError((result && result.message) || '帳號綁定失敗，請重新操作。');
+              renderError(
+                getFriendlyErrorMessage(
+                  result && result.message,
+                  '帳號設定沒有完成，請重新操作一次。'
+                )
+              );
               return;
             }
 
@@ -730,12 +747,13 @@
         document.body.innerHTML = `
           <main class="complete-page">
             <section class="complete-card">
-              <div class="success-badge">綁定完成</div>
+              <div class="success-badge">設定完成</div>
 
-              <h1>帳號綁定完成！</h1>
+              <h1>行前帳號設定完成！</h1>
 
               <p class="complete-lead">
-                請確認以下資訊，並完成 Telegram 群組加入。
+                你的 Google 與 GitHub 資訊已經送出。請確認下方內容，
+                接著加入 Telegram 群組，活動通知與小隊聯絡都會在那裡進行。
               </p>
 
               <dl class="summary">
@@ -748,11 +766,11 @@
                   <dd>${escapeHtml(result.name || '')}</dd>
                 </div>
                 <div>
-                  <dt>Google 帳號信箱</dt>
+                  <dt>Google 信箱</dt>
                   <dd>${escapeHtml(result.googleEmail || '')}</dd>
                 </div>
                 <div>
-                  <dt>GitHub 使用者名稱</dt>
+                  <dt>GitHub 帳號</dt>
                   <dd>${escapeHtml(result.githubUsername || '')}</dd>
                 </div>
               </dl>
@@ -760,14 +778,18 @@
               <section class="next-step">
                 <h2>下一步：加入 Telegram 群組</h2>
                 <p>
-                  活動期間會使用 Telegram 進行重要通知與小隊聯絡。
-                  請先註冊或登入 Telegram，並加入以下群組。
+                  如果你還沒有 Telegram，請先安裝並建立帳號。
+                  完成後請加入營隊大群組與你的小隊群組，避免錯過行前提醒與活動期間通知。
                 </p>
 
                 <div class="button-stack">
+                  <a class="button" href="https://telegram.org/apps" target="_blank" rel="noopener noreferrer">
+                    安裝 Telegram
+                  </a>
+
                   ${
                     campTelegramUrl
-                      ? `<a class="telegram-button" href="${escapeAttr(campTelegramUrl)}" target="_blank" rel="noopener noreferrer">加入營隊大群組</a>`
+                      ? `<a class="telegram-button" href="${escapeAttr(campTelegramUrl)}" target="_blank" rel="noopener noreferrer">加入營隊 Telegram 大群組</a>`
                       : `<p class="warning">營隊大群組連結尚未填入，請等待工作人員通知。</p>`
                   }
 
@@ -780,12 +802,12 @@
               </section>
 
               <p class="hint">
-                如果這不是你要使用的 GitHub 帳號，請先登出 GitHub 或切換帳號後，
-                再重新打開行前信連結操作一次。
+                如果 Google 或 GitHub 不是你營隊期間要使用的帳號，
+                請登出或切換帳號後，再重新打開行前信連結設定一次。
               </p>
 
               <p class="hint">
-                你可以關閉這個頁面。
+                加入 Telegram 群組後，就可以關閉這個頁面。
               </p>
             </section>
           </main>
@@ -802,21 +824,21 @@
         document.body.innerHTML = `
           <main class="complete-page">
             <section class="complete-card">
-              <h1>請改用 Safari / Chrome 開啟</h1>
+              <h1>請改用 Safari 或 Chrome 開啟</h1>
 
               <p class="complete-lead">
                 你目前可能是在 App 內建瀏覽器中開啟本頁。
-                Google / GitHub 登入在這種瀏覽器中容易失敗。
+                Google 與 GitHub 登入在這種瀏覽器中容易失敗，改用一般瀏覽器會比較順利。
               </p>
 
               <section class="next-step">
                 <h2>請照以下方式操作</h2>
                 <p>
-                  請複製下方綁定連結，貼到 Safari 或 Chrome 開啟後再繼續。
+                  請複製下方專屬連結，貼到 Safari 或 Chrome 開啟後再繼續設定。
                 </p>
 
                 <button id="copyBindingUrlButton" class="telegram-button" type="button">
-                  複製綁定連結
+                  複製專屬連結
                 </button>
 
                 ${
@@ -839,7 +861,7 @@
 
               <p class="hint">
                 iPhone / iPad 使用者請使用右上角選單，選擇「在瀏覽器開啟」或「在 Safari 開啟」。
-                如果找不到這個選項，請先複製綁定連結，再手動打開 Safari 貼上。
+                如果找不到這個選項，請先複製專屬連結，再手動打開 Safari 貼上。
               </p>
             </section>
           </main>
@@ -848,7 +870,7 @@
         const copyButton = document.getElementById('copyBindingUrlButton');
 
         copyButton.addEventListener('click', function() {
-          copyText(currentUrl, '已複製綁定連結，請貼到 Safari 或 Chrome 開啟。');
+          copyText(currentUrl, '已複製專屬連結，請貼到 Safari 或 Chrome 開啟。');
         });
       }
 
@@ -886,7 +908,7 @@
           script.remove();
           callback({
             ok: false,
-            message: '連線到帳號綁定後端失敗，請稍後再試。',
+            message: '暫時連不上行前帳號設定系統，請稍後再試一次。',
           });
         };
 
@@ -909,9 +931,9 @@
         document.body.innerHTML = `
           <main class="complete-page">
             <section class="complete-card">
-              <h1>綁定失敗</h1>
+              <h1>帳號設定沒有完成</h1>
               <p class="error">${escapeHtml(message)}</p>
-              <p class="hint">請回到行前信連結重新操作；如果仍然失敗，請聯絡工作人員。</p>
+              <p class="hint">請回到行前信連結重新操作；如果仍然卡住，請把這個畫面截圖傳給工作人員。</p>
             </section>
           </main>
         `;
@@ -926,6 +948,20 @@
         }
 
         setMessage(message, 'error');
+      }
+
+      function getFriendlyErrorMessage(rawMessage, fallbackMessage) {
+        const message = String(rawMessage || '').trim();
+
+        if (!message) {
+          return fallbackMessage;
+        }
+
+        if (/token|綁定碼|學員資料|找不到|對應/i.test(message)) {
+          return '找不到你的報名資料。請確認你使用的是行前信中的專屬連結，或重新複製綁定碼再試一次；如果還是不行，請把這個畫面截圖傳給工作人員。';
+        }
+
+        return message;
       }
 
       function createRandomState() {
@@ -1001,14 +1037,14 @@
               alert(successMessage);
             },
             function() {
-              prompt('請複製這個連結，貼到 Safari 或 Chrome 開啟：', text);
+              prompt('請複製這個專屬連結，貼到 Safari 或 Chrome 開啟：', text);
             }
           );
 
           return;
         }
 
-        prompt('請複製這個連結，貼到 Safari 或 Chrome 開啟：', text);
+        prompt('請複製這個專屬連結，貼到 Safari 或 Chrome 開啟：', text);
       }
 
       function normalizeTokenInput(value) {
