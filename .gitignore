@@ -1,0 +1,11 @@
+# Editor and OS files
+.*.swp
+*.swp
+*~
+.DS_Store
+Thumbs.db
+
+# Local secrets or deployment credentials
+.env
+.env.*
+credentials.json
