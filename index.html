@@ -610,7 +610,8 @@
                 getFriendlyErrorMessage(
                   result && result.message,
                   '暫時讀不到你的學員資料，請稍後再試一次。'
-                )
+                ),
+                result
               );
               return;
             }
@@ -623,11 +624,7 @@
             document.getElementById('participantLoading').classList.add('hidden');
             document.getElementById('participantCard').classList.remove('hidden');
 
-            if (result.hasGoogleAccountMail || result.hasGithubUsername) {
-              setMessage('你先前已經設定過帳號；如果這次重新操作，會以本次選擇的帳號為準。', 'muted');
-            } else {
-              setMessage('', 'muted');
-            }
+            setMessage(getProfileCompletionMessage(result), 'muted');
 
             updateGithubButtonState();
           }
@@ -939,15 +936,35 @@
         `;
       }
 
-      function showFatal(message) {
+      function showFatal(message, result) {
         const loading = document.getElementById('participantLoading');
+        const completionMessage = getProfileCompletionMessage(result);
+        const fullMessage = completionMessage
+          ? message + ' ' + completionMessage
+          : message;
 
         if (loading) {
-          loading.textContent = message;
+          loading.textContent = fullMessage;
           loading.className = 'error';
         }
 
-        setMessage(message, 'error');
+        setMessage(fullMessage, 'error');
+      }
+
+      function getProfileCompletionMessage(result) {
+        if (!result) {
+          return '';
+        }
+
+        if (result.hasGoogleAccountMail && result.hasGithubUsername) {
+          return '你先前已經完成過行前帳號設定；如果這次重新操作，會以本次選擇的帳號為準。';
+        }
+
+        if (result.hasGoogleAccountMail || result.hasGithubUsername) {
+          return '你先前已經填過部分帳號資料，請繼續完成剩下的步驟。';
+        }
+
+        return '你尚未完成行前帳號設定，請依照下方步驟繼續。';
       }
 
       function getFriendlyErrorMessage(rawMessage, fallbackMessage) {
